@@ -1,0 +1,31 @@
+.Modal {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  border: none;
+  background: transparent;
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  max-width: 100vh;
+  max-height: 100vh;
+  transition: all 0.25s ease-in-out;
+}
+.Overlay {
+  position: fixed;
+  inset: 0px;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+.image {
+  max-width: 100%;
+  max-height: 90vh;
+  margin: 0 auto;
+}
+.Description {
+  color: antiquewhite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
