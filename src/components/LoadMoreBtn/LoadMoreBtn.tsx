@@ -1,5 +1,9 @@
 import css from "./LoadMoreBtn.module.css";
-const LoadMoreBtn = ({ onLoadMore }) => {
+
+interface LoadMoreBtnProp {
+  onLoadMore: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+const LoadMoreBtn: React.FC<LoadMoreBtnProp> = ({ onLoadMore }) => {
   return (
     <button className={css.loadMorebutton} type="button" onClick={onLoadMore}>
       Load more

@@ -7,22 +7,29 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "../ImageModal/ImageModal";
 import { getFetchImg } from "../../services/api";
+import { Image } from "../ImageCard/ImageCard";
+
+interface ModalDataTS {
+  imgSrc: string;
+  imgDescription?: string;
+  imgAltDescription?: string;
+}
 
 function App() {
-  const [page, setPage] = useState(1);
-  const [query, setSearchQuery] = useState("");
-  const [imageGallery, setImageGallery] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [showBtn, setShowBtn] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [imageModalData, setImageModalData] = useState({
+  const [page, setPage] = useState<number>(1);
+  const [query, setSearchQuery] = useState<string>("");
+  const [imageGallery, setImageGallery] = useState<Image[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [showBtn, setShowBtn] = useState<boolean>(false);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [imageModalData, setImageModalData] = useState<ModalDataTS>({
     imgSrc: "",
     imgDescription: "",
     imgAltDescription: "",
   });
 
-  const per_page = 12;
+  const per_page: number = 12;
 
   const customStyles = {
     content: {
@@ -57,7 +64,6 @@ function App() {
         setIsError(true);
       } finally {
         setIsLoading(false);
-        // setShowBtn(true);
         if (page > 1) {
           window.scrollBy({
             top: window.innerHeight - 200,
@@ -70,7 +76,7 @@ function App() {
     fetchImages();
   }, [query, page, per_page]);
 
-  const onSetSearchQuery = (query) => {
+  const onSetSearchQuery = (query: string) => {
     setSearchQuery(query);
     setPage(1);
     setImageGallery([]);
@@ -78,7 +84,7 @@ function App() {
   const onNextPage = () => {
     setPage((prevPage) => prevPage + 1);
   };
-  const handleImageClick = (img) => {
+  const handleImageClick = (img: ModalDataTS) => {
     setImageModalData(img);
     openModal();
   };
@@ -94,7 +100,6 @@ function App() {
       />
       {isLoading && <Loader />}
       <ImageModal
-        style={customStyles}
         closeModal={closeModal}
         modalIsOpen={modalIsOpen}
         {...imageModalData}

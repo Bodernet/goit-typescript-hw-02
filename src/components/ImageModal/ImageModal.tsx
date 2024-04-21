@@ -1,9 +1,18 @@
-// import css from "./ImageModal.module.css";
+import React from "react";
 import Modal from "react-modal";
 import css from "./ImageModal.module.css";
+
+interface ImageModalProps {
+  closeModal: () => void;
+  modalIsOpen: boolean;
+  imgSrc?: string;
+  imgAltDescription?: string;
+  imgDescription?: string;
+}
+
 Modal.setAppElement("#root");
 
-const ImageModal = ({
+const ImageModal: React.FC<ImageModalProps> = ({
   closeModal,
   modalIsOpen,
   imgSrc = "https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg",
