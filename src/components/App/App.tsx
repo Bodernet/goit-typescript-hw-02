@@ -1,3 +1,4 @@
+import axios, { AxiosResponse } from "axios";
 import "./App.module.css";
 import { useEffect, useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
@@ -6,8 +7,21 @@ import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "../ImageModal/ImageModal";
-import { getFetchImg } from "../../services/api";
 import { Image } from "../ImageCard/ImageCard";
+
+axios.defaults.baseURL = "https://api.unsplash.com";
+const ACCESS_KEY = "A3nx2FXRqtZH1-4NqfORpOXAK1JQFT9rylzqShlpDlI";
+
+interface FetchImgParams {
+  page: number;
+  per_page: number;
+  query: string;
+}
+
+interface FetchImgResponse {
+  total_pages: number;
+  results: Image[];
+}
 
 interface ModalDataTS {
   imgSrc: string;
@@ -50,13 +64,31 @@ function App() {
     setModalIsOpen(false);
   };
 
+  const getFetchImg = async (
+    params: FetchImgParams
+  ): Promise<FetchImgResponse> => {
+    const { page, per_page, query } = params;
+    const response: AxiosResponse<FetchImgResponse> = await axios.get(
+      "/search/photos",
+      {
+        params: {
+          client_id: ACCESS_KEY,
+          page,
+          per_page,
+          query,
+        },
+      }
+    );
+    return response.data;
+  };
+
   useEffect(() => {
     if (!query) return;
     async function fetchImages() {
       try {
         setIsLoading(true);
         setIsError(false);
-        const data = await getFetchImg(page, per_page, query);
+        const data = await getFetchImg({ page, per_page, query });
         setImageGallery((prevImages) => [...prevImages, ...data.results]);
 
         setShowBtn(page < data.total_pages);
